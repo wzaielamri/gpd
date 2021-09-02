@@ -28,7 +28,7 @@ int DoMain(int argc, char *argv[]) {
                  "point in the cloud (*.csv).\n";
     return (-1);
   }
-
+ 
   std::string config_filename = argv[1];
   std::string pcd_filename = argv[2];
   if (!checkFileExists(config_filename)) {
@@ -80,7 +80,7 @@ int DoMain(int argc, char *argv[]) {
   }
 
   // Detect grasp poses.
-  detector.detectGrasps(cloud);
+  std::vector<std::unique_ptr<candidate::Hand>> clusters = detector.detectGrasps(cloud);
 
   return 0;
 }

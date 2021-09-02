@@ -183,6 +183,8 @@ class Cloud {
   Cloud(const std::string &filename_left, const std::string &filename_right,
         const Eigen::Matrix3Xd &view_points);
 
+  ~Cloud();
+
   /**
    * \brief Remove NANs from the point cloud.
    */

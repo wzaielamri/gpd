@@ -3,15 +3,19 @@ project(gpd)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD 14)
 
+
 # Eigen library
 include_directories(${EIGEN3_INCLUDE_DIR})
 
+
 # PCL
-find_package(PCL 1.9 REQUIRED)
+find_package(PCL REQUIRED)
+#find_package(PCL 1.9 REQUIRED)
 #find_package(PCL 1.8 REQUIRED)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
+
 
 # OpenCV
 find_package(OpenCV REQUIRED)

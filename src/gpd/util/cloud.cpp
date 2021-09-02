@@ -79,6 +79,11 @@ Cloud::Cloud(const PointCloudPointNormal::Ptr &cloud, int size_left_cloud,
   }
 }
 
+Cloud::~Cloud(){
+// all are shared pointer and vectors no delete needed
+}
+
+
 Cloud::Cloud(const PointCloudRGB::Ptr &cloud, int size_left_cloud,
              const Eigen::Matrix3Xd &view_points)
     : cloud_processed_(cloud),
@@ -152,15 +157,19 @@ Cloud::Cloud(const std::string &filename_left,
 }
 
 void Cloud::removeNans() {
-  pcl::PointIndices::Ptr inliers(new pcl::PointIndices());
-  pcl::removeNaNFromPointCloud(*cloud_processed_, inliers->indices);
-  if (inliers->indices.size() < cloud_processed_->size()) {
-    pcl::ExtractIndices<pcl::PointXYZRGBA> eifilter(true);
-    eifilter.setInputCloud(cloud_processed_);
-    eifilter.setIndices(inliers);
-    eifilter.filter(*cloud_processed_);
-    printf("Cloud after removing NANs: %zu\n", cloud_processed_->size());
-  }
+
+  std::vector<int> indices;
+  pcl::removeNaNFromPointCloud(*cloud_processed_, *cloud_processed_, indices);
+
+  //pcl::PointIndices::Ptr inliers(new pcl::PointIndices());
+  //pcl::removeNaNFromPointCloud(*cloud_processed_, inliers->indices);
+  //if (inliers->indices.size() < cloud_processed_->size()) {
+  //  pcl::ExtractIndices<pcl::PointXYZRGBA> eifilter(true);
+  //  eifilter.setInputCloud(cloud_processed_);
+  //  eifilter.setIndices(inliers);
+  //  eifilter.filter(*cloud_processed_);
+  //  printf("Cloud after removing NANs: %zu\n", cloud_processed_->size());
+  //}
 }
 
 void Cloud::removeStatisticalOutliers() {
@@ -205,6 +214,7 @@ void Cloud::refineNormals(int k) {
 
 void Cloud::filterWorkspace(const std::vector<double> &workspace) {
   // Filter indices into the point cloud.
+
   if (sample_indices_.size() > 0) {
     std::vector<int> indices_to_keep;
 

@@ -306,7 +306,10 @@ std::vector<std::unique_ptr<candidate::Hand>> GraspDetector::detectGrasps(
   printf("======== Selected grasps ========\n");
   for (int i = 0; i < clusters.size(); i++) {
     std::cout << "Grasp " << i << ": " << clusters[i]->getScore() << "\n";
+    clusters[i]->print();
+    printf("-------------------------------\n");
   }
+  
   printf("Selected the %d best grasps.\n", (int)clusters.size());
   double t_total = omp_get_wtime() - t0_total;
 
